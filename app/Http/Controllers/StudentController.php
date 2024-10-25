@@ -15,9 +15,17 @@ class StudentController extends Controller
     }
 
     public function edit(Request $request, $id){
-        // ToDo
-    }
-
+        $student = Student::find($id);
+        if (!$student) {
+            return response()->json(["message" => "Estudiante no encontrado"], 404);
+        }
+        $student->ru = $request->input('ru');
+        $student->firstName = $request->input('firstName');
+        $student->lastName = $request->input('lastName');
+        $student->save();
+         
+        return response()->json(["message" => "Estudiante actualizado"], 200);
+}
     public function delete($id){
         Student::destroy($id);
         return response()->json(["message"=>"Eliminacion Existosa"]);                                
